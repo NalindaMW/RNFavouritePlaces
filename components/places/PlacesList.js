@@ -5,11 +5,13 @@ import PlaceItem from "./PlaceItem";
 
 const PlacesList = ({ places }) => {
   if (!places || places.length === 0) {
-    <View style={styles.fallbackContainer}>
-      <Text style={styles.fallbackText}>
-        No places added yet. Start adding some!
-      </Text>
-    </View>;
+    return (
+      <View style={styles.fallbackContainer}>
+        <Text style={styles.fallbackText}>
+          No places added yet. Start adding some!
+        </Text>
+      </View>
+    );
   }
 
   return (
