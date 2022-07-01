@@ -9,6 +9,7 @@ const AddPlace = ({ navigation }) => {
       place: place,
     });
   }
+
   return <PlaceForm onCreatePlace={createPlaceHandler} />;
 };
 
