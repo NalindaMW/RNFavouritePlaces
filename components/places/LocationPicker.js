@@ -13,9 +13,9 @@ import {
   useIsFocused,
 } from "@react-navigation/native";
 
-import getMapPreview from "../../util/location";
+import getMapPreview, { getAddress } from "../../util/location";
 
-const LocationPicker = () => {
+const LocationPicker = ({ onPickLocation }) => {
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
 
@@ -36,6 +36,23 @@ const LocationPicker = () => {
       setPickedLocation(mapPickedLocation);
     }
   }, [route, isFocused]);
+
+  useEffect(() => {
+    /* //Comment temporary until getAddress implement 
+    async function handleLocation() {
+      if (pickedLocation) {
+        const address = await getAddress(
+          pickedLocation.lat,
+          pickedLocation.lng
+        );
+        onPickLocation({ ...pickedLocation, address: address });
+      }
+    }
+    handleLocation();
+    */
+
+    onPickLocation(pickedLocation);
+  }, [pickedLocation, onPickLocation]);
 
   async function verifyPermission() {
     if (
@@ -78,6 +95,8 @@ const LocationPicker = () => {
   let locationPreview = <Text>No location picked yet.</Text>;
 
   if (pickedLocation) {
+    // commented temporarly, since getMapPreview function not yet implemented with google maps static api
+    /*
     locationPreview = (
       <Image
         style={styles.image}
@@ -86,6 +105,7 @@ const LocationPicker = () => {
         }}
       />
     );
+    */
   }
 
   return (
