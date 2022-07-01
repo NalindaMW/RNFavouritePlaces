@@ -4,8 +4,9 @@ import { Colors } from "../../Constants/colors";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
 import Button from "../ui/Button";
+import { Place } from "../../models/place";
 
-const PlaceForm = () => {
+const PlaceForm = ({ onCreatePlace }) => {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [selectedImage, setSelectedImage] = useState();
   const [pickedLocation, setPickedLocation] = useState();
@@ -28,6 +29,9 @@ const PlaceForm = () => {
     console.log(enteredTitle);
     console.log(selectedImage);
     console.log(pickedLocation);
+
+    const place = new Place(enteredTitle, selectedImage, pickedLocation);
+    onCreatePlace(place);
   }
 
   return (

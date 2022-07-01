@@ -51,7 +51,7 @@ const LocationPicker = ({ onPickLocation }) => {
     handleLocation();
     */
 
-    onPickLocation(pickedLocation);
+    onPickLocation({ ...pickedLocation, address: "This is a sample address" });
   }, [pickedLocation, onPickLocation]);
 
   async function verifyPermission() {
