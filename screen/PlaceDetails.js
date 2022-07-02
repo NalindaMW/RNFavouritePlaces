@@ -1,14 +1,76 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, Text, View, Image } from "react-native";
+import OutlinedButton from "../components/ui/OutlinedButton";
+import { Colors } from "../Constants/colors";
+import { fetchPlaceDetails } from "../util/database";
 
-const PlaceDetails = () => {
+const PlaceDetails = ({ route, navigation }) => {
+  const [fetchedPlace, setFetchedPlace] = useState();
+
+  function showOnMapHandler() {}
+
+  const selectedPlaceId = route.params.placeId;
+
+  useEffect(() => {
+    async function loadPlaceDetails() {
+      const place = await fetchPlaceDetails(selectedPlaceId);
+      setFetchedPlace(place);
+
+      navigation.setOptions({
+        title: place.title,
+      });
+    }
+
+    loadPlaceDetails();
+  }, [selectedPlaceId]);
+
+  if (!fetchedPlace) {
+    return (
+      <View style={styles.fallbackText}>
+        <Text>Loading place details</Text>
+      </View>
+    );
+  }
+
   return (
-    <View>
-      <Text>PlaceDetails</Text>
-    </View>
+    <ScrollView>
+      <Image style={styles.image} source={{ uri: fetchedPlace.imageUri }} />
+      <View style={styles.locationContainer}>
+        <View style={styles.addressContainer}>
+          <Text style={styles.address}>{fetchedPlace.address}s</Text>
+        </View>
+        <OutlinedButton icon="map" onPress={showOnMapHandler}>
+          View On Map
+        </OutlinedButton>
+      </View>
+    </ScrollView>
   );
 };
 
 export default PlaceDetails;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  fallbackText: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    height: "35%",
+    minHeight: 300,
+    width: "100%",
+  },
+  locationContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  addressContainer: {
+    padding: 20,
+  },
+  address: {
+    color: Colors.primary500,
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+});
