@@ -17,7 +17,7 @@ const PlacesList = ({ places }) => {
 
   return (
     <FlatList
-      style={style.list}
+      style={styles.list}
       data={places}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => <PlaceItem place={item} />}
